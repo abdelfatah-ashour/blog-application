@@ -57,11 +57,13 @@ const blogService = createSlice({
         state.loading = true;
       })
       .addCase(fetchBlogs.fulfilled, (state, { payload }) => {
+        console.log(state.data.length, payload.length);
+
         state.loading = false;
         state.loaded = true;
-        state.data = payload as IBlog[];
+        state.isLastPage = state.data.length === payload.length ? true : false;
         state.page = state.page + 1;
-        state.isLastPage = payload.length ? true : false;
+        state.data = payload as IBlog[];
       })
       .addCase(fetchBlogs.rejected, (state, { payload }) => {
         state.loading = false;

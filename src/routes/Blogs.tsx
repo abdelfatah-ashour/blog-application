@@ -7,7 +7,7 @@ import { fetchBlogs, resetBlogs } from "@/store/slices/blogsSlice";
 import { useEffect } from "react";
 
 export default function Blogs() {
-  const { data, page, loaded, isLastPage, loading } = useAppSelector(
+  const { data, page, loaded, isLastPage, loading, error } = useAppSelector(
     (s) => s.blogs
   );
   const dispatch = useAppDispatch();
@@ -47,7 +47,7 @@ export default function Blogs() {
         </section>
       ) : null}
 
-      {loading && isLastPage ? (
+      {loading ? (
         <section className="w-full grid grid-cols-6 gap-8">
           {Array.from({ length: 3 }).map((_, index) => (
             <BlogCard.placeholder
@@ -58,7 +58,7 @@ export default function Blogs() {
         </section>
       ) : null}
 
-      {!loading && isLastPage ? (
+      {loaded && !loading && !isLastPage ? (
         <section className="w-full my-6 flex justify-center items-center">
           <Button
             variant="primary"
@@ -69,6 +69,14 @@ export default function Blogs() {
             See more
           </Button>
         </section>
+      ) : null}
+
+      {error ? (
+        <div className="w-full h-screen flex flex-col justify-center items-center">
+          <Typography variant="descriptionLarge" component="p">
+            Something went wrong!
+          </Typography>
+        </div>
       ) : null}
     </>
   );

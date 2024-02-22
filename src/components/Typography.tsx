@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 type TypographyProps = {
   variant?: TypographyVariant;
-  component: TypographyComponent;
+  component?: TypographyComponent;
   children: React.ReactNode;
 };
 

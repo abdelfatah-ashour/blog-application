@@ -3,7 +3,6 @@ export type ButtonVariant =
   | "secondary"
   | "info"
   | "error"
-  | "warning"
   | "default";
 
 export type ButtonSize = "sm" | "md" | "lg";
