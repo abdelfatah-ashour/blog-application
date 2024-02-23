@@ -29,3 +29,5 @@ export type TypographyComponent =
   | "strong"
   | "label"
   | "b";
+
+export type IconSizes = "xs" | "sm" | "md" | "lg";

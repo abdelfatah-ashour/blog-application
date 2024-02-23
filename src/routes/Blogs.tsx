@@ -1,11 +1,15 @@
 import { BlogCard } from "@/components/BlogCard";
 import BlogsFeatures from "@/components/BlogsFeatures";
 import Button from "@/components/Button";
+import Icon from "@/components/Icon";
 import Typography from "@/components/Typography";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-hooks";
+import { generateRandomDate } from "@/lib/formmating-date";
 import { getFakeImage } from "@/lib/sourcesImages";
 import { fetchBlogs, resetBlogs } from "@/store/slices/blogsSlice";
 import { useEffect } from "react";
+
+const clockIcon = "/assets/icons/clock.svg";
 
 export default function Blogs() {
   const { data, filterResults, page, loaded, isLastPage, loading, error } =
@@ -37,6 +41,12 @@ export default function Blogs() {
                     alt="Sunset in the mountains"
                   />
                   <BlogCard.content>
+                    <Typography variant="caption" component="span">
+                      <div className="flex flex-1 flex-nowrap gap-1 items-center">
+                        <Icon src={clockIcon} alt="published blog." size="xs" />{" "}
+                        {generateRandomDate()}
+                      </div>
+                    </Typography>
                     <Typography variant="titleMedium" component="h3">
                       {blog.title}
                     </Typography>
