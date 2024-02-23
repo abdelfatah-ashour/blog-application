@@ -27,4 +27,5 @@ export type TypographyComponent =
   | "p"
   | "span"
   | "strong"
+  | "label"
   | "b";

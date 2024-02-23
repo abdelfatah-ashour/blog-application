@@ -1,4 +1,5 @@
 import { BlogCard } from "@/components/BlogCard";
+import BlogsFeatures from "@/components/BlogsFeatures";
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-hooks";
@@ -7,9 +8,9 @@ import { fetchBlogs, resetBlogs } from "@/store/slices/blogsSlice";
 import { useEffect } from "react";
 
 export default function Blogs() {
-  const { data, page, loaded, isLastPage, loading, error } = useAppSelector(
-    (s) => s.blogs
-  );
+  const { data, filterResults, page, loaded, isLastPage, loading, error } =
+    useAppSelector((s) => s.blogs);
+  const { value: search } = useAppSelector((s) => s.search);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -21,30 +22,40 @@ export default function Blogs() {
 
   return (
     <>
+      <BlogsFeatures />
       {loaded ? (
-        <section className="w-full grid grid-cols-6 gap-8 py-8">
-          {data?.map((blog) => {
-            return (
-              <BlogCard.root
-                key={blog.id}
-                className="col-span-6 md:col-span-3 lg:col-span-2"
-              >
-                <BlogCard.header
-                  src={getFakeImage()}
-                  alt="Sunset in the mountains"
-                />
-                <BlogCard.content>
-                  <Typography variant="titleMedium" component="h3">
-                    {blog.title}
-                  </Typography>
-                  <Typography variant="descriptionSmall" component="p">
-                    {blog.body}
-                  </Typography>
-                </BlogCard.content>
-              </BlogCard.root>
-            );
-          })}
-        </section>
+        <>
+          <section className="w-full grid grid-cols-6 gap-8 py-8">
+            {(search.length ? filterResults : data).map((blog) => {
+              return (
+                <BlogCard.root
+                  key={blog.id}
+                  className="col-span-6 md:col-span-3 lg:col-span-2"
+                >
+                  <BlogCard.header
+                    src={getFakeImage()}
+                    alt="Sunset in the mountains"
+                  />
+                  <BlogCard.content>
+                    <Typography variant="titleMedium" component="h3">
+                      {blog.title}
+                    </Typography>
+                    <Typography variant="descriptionSmall" component="p">
+                      {blog.body}
+                    </Typography>
+                  </BlogCard.content>
+                </BlogCard.root>
+              );
+            })}
+          </section>
+          {search.length && !filterResults.length ? (
+            <div className="w-full flex justify-center items-center h-[35rem]">
+              <Typography variant="titleMedium" component="p">
+                Results with {search} not found.
+              </Typography>
+            </div>
+          ) : null}
+        </>
       ) : null}
 
       {loading ? (
@@ -58,7 +69,7 @@ export default function Blogs() {
         </section>
       ) : null}
 
-      {loaded && !loading && !isLastPage ? (
+      {loaded && !loading && !isLastPage && !search.length ? (
         <section className="w-full my-6 flex justify-center items-center">
           <Button
             variant="primary"
