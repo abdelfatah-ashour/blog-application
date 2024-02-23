@@ -11,6 +11,8 @@ import { useEffect } from "react";
 
 const clockIcon = "/assets/icons/clock.svg";
 
+const MAX_CHARTS = 255;
+
 export default function Blogs() {
   const { data, filterResults, page, loaded, isLastPage, loading, error } =
     useAppSelector((s) => s.blogs);
@@ -51,7 +53,7 @@ export default function Blogs() {
                       {blog.title}
                     </Typography>
                     <Typography variant="descriptionSmall" component="p">
-                      {blog.body}
+                      {blog.body.slice(0, MAX_CHARTS)}
                     </Typography>
                   </BlogCard.content>
                 </BlogCard.root>
